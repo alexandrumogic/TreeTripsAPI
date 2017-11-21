@@ -1,0 +1,24 @@
+{
+  "name": "treetripsapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandrumogic/TreeTripsAPI.git"
+  },
+  "author": "Alexandru Mogic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexandrumogic/TreeTripsAPI/issues"
+  },
+  "homepage": "https://github.com/alexandrumogic/TreeTripsAPI#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "firebase-admin": "^5.5.0"
+  }
+}
