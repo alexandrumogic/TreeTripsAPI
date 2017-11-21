@@ -1,8 +1,14 @@
 var express = require('express');
 var app = express();
-var db = require('./controllers/database');
-var treesController = require('./controllers/treesController');
 
-app.use('/trees', treesController)
+// Import controllers
+var treesController = require('./controllers/treesController');
+var treesRoutes = require('./routes/treesRoutes');
+//var routesController = require('./controllers/routesController');
+//var usersController = require('./controllers/usersController');
+
+app.use('/trees', treesRoutes);
+//app.use('/route', routesController);
+//app.use('/user', usersController);
 
 module.exports = app;

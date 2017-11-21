@@ -1,11 +1,35 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({ extended: true }));
+"use strict";
 
-router.get('/', function(req, res) {
+var treesData = require('../models/treesModel');
 
-  res.status(200).send("OKKK");
-})
+var getTrees = function(req, res) {
+	treesData.getTrees().then(function(value) {
+		res.status(200).send(value);
+	});
+};
 
-module.exports = router;
+
+var postTree = function(req, res) {
+  	res.status(200).send("Posted OK");
+}
+
+var getTreeById = function(req, res) {
+	treesData.getTreeById(req.params.id).then(function(value) {
+		res.status(200).send(value);
+	});
+};
+
+var getTreesByCategory = function(req, res) {
+	try {
+		treesData.getTreesByCategory(req.params.category).then(function(value) {
+			res.status(200).send(value);
+		});
+	} catch (error) {
+		res.status(500);
+	}	
+}
+
+module.exports.getTreesByCategory = getTreesByCategory;
+module.exports.getTrees = getTrees;
+module.exports.postTree = postTree;
+module.exports.getTreeById = getTreeById;
