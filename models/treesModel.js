@@ -14,9 +14,16 @@ treesRef.on("value", function(snapshot) {
 
 // Functions
 var getTrees = function() {
-	return new Promise((resolve) => {	
+	return new Promise((resolve) => {
 		resolve(trees);
 	});
+}
+
+var postTree = function(req) {
+  return new Promise((resolve) => {
+    treesRef.push(req);
+    resolve();
+  });
 }
 
 var getTreeById = function(id) {
@@ -37,5 +44,6 @@ var getTreesByCategory = function(category) {
 
 // Export functions
 module.exports.getTrees = getTrees;
+module.exports.postTree = postTree;
 module.exports.getTreeById = getTreeById;
 module.exports.getTreesByCategory = getTreesByCategory;

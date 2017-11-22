@@ -8,9 +8,10 @@ var getTrees = function(req, res) {
 	});
 };
 
-
 var postTree = function(req, res) {
-  	res.status(200).send("Posted OK");
+		treesData.postTree(req.body).then(function(value) {
+			res.status(200).send("Posted OK");
+		});
 }
 
 var getTreeById = function(req, res) {
@@ -26,7 +27,7 @@ var getTreesByCategory = function(req, res) {
 		});
 	} catch (error) {
 		res.status(500);
-	}	
+	}
 }
 
 module.exports.getTreesByCategory = getTreesByCategory;
