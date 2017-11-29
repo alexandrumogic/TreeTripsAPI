@@ -11,4 +11,4 @@ admin.initializeApp({
 var db = admin.database();
 
 module.exports = db;
-
+module.exports.admin = admin;
