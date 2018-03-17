@@ -3,11 +3,19 @@
 // Get database reference
 var db = require('../shared/database');
 var treesRef = db.ref('trees');
+var treesCategoriesRef = db.ref('trees-categories');
 var trees;
+var treesCategories;
 
 // Register callbacks
 treesRef.on("value", function(snapshot) {
   trees = snapshot.val();
+}, function (errorObject) {
+  console.log("The read failed: " + errorObject.code);
+});
+
+treesCategoriesRef.on("value", function(snapshot) {
+  treesCategories = snapshot.val();
 }, function (errorObject) {
   console.log("The read failed: " + errorObject.code);
 });
@@ -42,8 +50,15 @@ var getTreesByCategory = function(category) {
 	});
 }
 
+var getCategories = function() {
+  return new Promise((resolve) => {
+		resolve(treesCategories);
+	});
+}
+
 // Export functions
 module.exports.getTrees = getTrees;
 module.exports.postTree = postTree;
 module.exports.getTreeById = getTreeById;
 module.exports.getTreesByCategory = getTreesByCategory;
+module.exports.getCategories = getCategories;

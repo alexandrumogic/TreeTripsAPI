@@ -39,7 +39,14 @@ var getTreesByCategory = function(req, res) {
 	}
 }
 
+var getCategories = function(req, res) {
+	treesData.getCategories().then(function(value) {
+		res.status(200).send(value);
+	})
+}
+
 module.exports.getTreesByCategory = getTreesByCategory;
 module.exports.getTrees = getTrees;
 module.exports.postTree = postTree;
 module.exports.getTreeById = getTreeById;
+module.exports.getCategories = getCategories;
