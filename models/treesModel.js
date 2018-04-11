@@ -2,10 +2,14 @@
 
 // Get database reference
 var db = require('../shared/database');
+var multer = db.multer;
+var bucket = db.bucket;
 var treesRef = db.ref('trees');
 var treesCategoriesRef = db.ref('trees-categories');
 var trees;
 var treesCategories;
+
+const format = require('util').format;
 
 // Register callbacks
 treesRef.on("value", function(snapshot) {
@@ -27,11 +31,61 @@ var getTrees = function() {
 	});
 }
 
-var postTree = function(req) {
+var postTree = function(data, file) {
   return new Promise((resolve) => {
-    treesRef.push(req);
-    resolve();
+    if (file) {
+      uploadImageToStorage(file).then((imgLink) => {
+        var tree = {
+          category: data.category,
+          coords: {
+            lat: parseFloat(data.lat),
+            lng: parseFloat(data.lng)
+          },
+          icon: "./assets/img/trees-categories/" + data.category + ".png",
+          img: imgLink,
+          info: data.description
+        }
+
+        treesRef.push(tree);
+        resolve();
+      }).catch((error) => {
+        console.error(error);
+        resolve();
+      });
+    }
   });
+}
+
+const uploadImageToStorage = (file) => {
+  let prom = new Promise((resolve, reject) => {
+    if (!file) {
+      reject('No image file');
+    }
+    let newFileName = `${file.originalname}`;
+
+    let fileUpload = bucket.file(newFileName);
+
+    const blobStream = fileUpload.createWriteStream({
+      metadata: {
+        contentType: file.mimetype
+      }
+    });
+
+    blobStream.on('error', (error) => {
+      console.log(error);
+      reject('Something is wrong! Unable to upload at the moment.');
+    });
+    blobStream.on('finish', () => {
+      fileUpload.getSignedUrl({
+        action: 'read',
+        expires: '03-09-2491'
+      }).then(signedUrls => {
+        resolve(signedUrls[0]);
+      });
+    });
+    blobStream.end(file.buffer);
+  });
+  return prom;
 }
 
 var getTreeById = function(id) {

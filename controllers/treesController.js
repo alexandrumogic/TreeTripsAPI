@@ -9,10 +9,10 @@ var getTrees = function(req, res) {
 };
 
 var postTree = function(req, res) {
-	if (!req.body) {
+	if (!req.body.lat || !req.body.lng) {
 		return res.status(400).send("Bad request.");
 	}
-	treesData.postTree(req.body).then(function(value) {
+	treesData.postTree(req.body, req.file).then(function(value) {
 		res.status(200).send("Pom adaugat cu succes.");
 	});
 }

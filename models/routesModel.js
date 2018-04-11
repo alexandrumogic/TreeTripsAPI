@@ -6,14 +6,13 @@ var googleMaps = require('@google/maps').createClient({
 });
 
 var findRoute = function(data) {
+    console.log(data);
+
     return googleMaps.directions({
-      origin: data.origin,
-      destination: data.destination,
-      mode: 'walking',
-      waypoints: [],
-      alternatives: true,
-      optimize: true,
-    }).asPromise().then(response => response.json.routes)
+      origin: {lat: data.sPtLat, lng: data.sPtLng},
+      destination: {lat: data.ePtLat, lng: data.ePtLng},
+      mode: 'walking'
+    }).asPromise().then(response => response.json)
     .catch(err => console.log(err));
 }
 
