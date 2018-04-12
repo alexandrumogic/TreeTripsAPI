@@ -19,7 +19,13 @@ var deleteUser = function(req, res) {
 
 var loginUser = function(req, res) {
   usersData.loginUser(req.body).then(function(value) {
-    res.status(200).send(value);
+		if (value == "Error")
+		{
+			res.status(400).send("User sau parola incorecte. Incercati din nou.");
+		} else
+		{
+			res.status(200).send(value);
+		}
   })
 }
 
@@ -47,4 +53,3 @@ module.exports.loginUser = loginUser;
 module.exports.addUserRoute = addUserRoute;
 module.exports.getUserRoutes = getUserRoutes;
 module.exports.deleteUserRoute = deleteUserRoute;
-

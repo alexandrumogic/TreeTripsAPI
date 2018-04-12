@@ -16,7 +16,7 @@ var createUser = function(data) {
     })
     .then(function(userRecord) {
       console.log("Successfully created new user:", userRecord.uid);
-      resolve("User created successfully");
+      resolve(userRecord.uid);
     })
     .catch(function(error) {
       console.log("Error creating new user:", error);
@@ -52,14 +52,14 @@ var verifyIdToken = function(idToken) {
 
 var loginUser = function(data) {
   return new Promise((resolve, reject) => {
-    clientService.auth().signInWithEmailAndPassword(data.email,data.password).then((user) => {            
+    clientService.auth().signInWithEmailAndPassword(data.email,data.password).then((user) => {
       user.getIdToken(true).then((token)=>{
-              resolve(token);
+              resolve({name: user.displayName, token: token});
           }).catch((err)=>{
-              reject(false);
+              reject("Error");
           });
       }).catch((err)=>{
-          reject(err);
+          reject("Error");
       });
   });
 }
@@ -73,7 +73,7 @@ var getUserRoutes = function(data) {
         resolve(routes.val());
       })
     })
-  });  
+  });
 }
 
 var deleteUserRoute = function(data) {
@@ -84,7 +84,7 @@ var deleteUserRoute = function(data) {
     }).catch((err) => {
       reject(err);
     });
-  });  
+  });
 }
 
 var addUserRoute = function(data) {
