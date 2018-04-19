@@ -1,6 +1,7 @@
 "use strict";
 
 var treesData = require('../models/treesModel');
+var verifyIdToken = require('../models/usersModel').verifyIdToken;
 
 var getTrees = function(req, res) {
 	treesData.getTrees().then(function(value) {
@@ -9,12 +10,15 @@ var getTrees = function(req, res) {
 };
 
 var postTree = function(req, res) {
-	if (!req.body.lat || !req.body.lng) {
+	if (!req.body.lat || !req.body.lng || !req.body.token) {
 		return res.status(400).send("Bad request.");
 	}
-	treesData.postTree(req.body, req.file).then(function(value) {
-		res.status(200).send("Pom adaugat cu succes.");
-	});
+	verifyIdToken(req.body.token).then((uid) => {
+		treesData.postTree(req.body, req.file, uid).then(function(value) {
+			res.status(200).send("Pom adaugat cu succes.");
+		});
+	})
+
 }
 
 var getTreeById = function(req, res) {

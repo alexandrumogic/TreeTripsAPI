@@ -67,7 +67,6 @@ var loginUser = function(data) {
 
 var getUserRoutes = function(data) {
   return new Promise((resolve, reject) => {
-    console.log(data);
     verifyIdToken(data.token).then((uid) => {
       usersRef.child(uid).child("routes").on("value", function(routes) {
         resolve(routes.val());
@@ -76,9 +75,27 @@ var getUserRoutes = function(data) {
   });
 }
 
+var getUserTrees = function(data) {
+  return new Promise((resolve, reject) => {
+    verifyIdToken(data.token).then((uid) => {
+      usersRef.child(uid).child("trees").on("value", function(trees) {
+        resolve(trees.val());
+      })
+    })
+  });
+}
+
+
+var pushTreeIdToUserAddedTrees = function(treeId, uid) {
+  return new Promise((resolve, reject) => {
+      usersRef.child(uid).child("trees").push(treeId).then(resolve("OK"));
+    }).catch((err) => {
+      reject("Could not push tree id to user database.");
+    });
+}
+
 var deleteUserRoute = function(data) {
   return new Promise((resolve, reject) => {
-    console.log(data);
     verifyIdToken(data.token).then((uid) => {
       usersRef.child(uid).child("routes").child(data.routeKey).remove().then(resolve("OK"));
     }).catch((err) => {
@@ -103,3 +120,6 @@ module.exports.loginUser = loginUser;
 module.exports.addUserRoute = addUserRoute;
 module.exports.getUserRoutes = getUserRoutes;
 module.exports.deleteUserRoute = deleteUserRoute;
+module.exports.verifyIdToken = verifyIdToken;
+module.exports.getUserTrees = getUserTrees;
+module.exports.pushTreeIdToUserAddedTrees = pushTreeIdToUserAddedTrees;

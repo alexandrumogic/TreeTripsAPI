@@ -13,6 +13,7 @@ router.delete('/', usersController.deleteUser);
 router.post('/login', usersController.loginUser);
 router.post('/routes', usersController.addUserRoute);
 router.get('/routes', usersController.getUserRoutes);
+router.get('/trees', usersController.getUserTrees);
 router.delete('/routes', usersController.deleteUserRoute);
 
 module.exports = router;

@@ -6,6 +6,7 @@ var multer = db.multer;
 var bucket = db.bucket;
 var treesRef = db.ref('trees');
 var treesCategoriesRef = db.ref('trees-categories');
+var pushTreeIdToUserAddedTrees = require('./usersModel').pushTreeIdToUserAddedTrees;
 var trees;
 var treesCategories;
 
@@ -31,7 +32,7 @@ var getTrees = function() {
 	});
 }
 
-var postTree = function(data, file) {
+var postTree = function(data, file, uid) {
   return new Promise((resolve) => {
     if (file) {
       uploadImageToStorage(file).then((imgLink) => {
@@ -46,7 +47,10 @@ var postTree = function(data, file) {
           info: data.description
         }
 
-        treesRef.push(tree);
+        treesRef.push(tree).then((snap) => {
+          console.log(snap.key);
+          pushTreeIdToUserAddedTrees(snap.key, uid);
+        });
         resolve();
       }).catch((error) => {
         console.error(error);

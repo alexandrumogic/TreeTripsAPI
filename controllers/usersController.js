@@ -41,6 +41,12 @@ var getUserRoutes = function(req, res) {
   })
 }
 
+var getUserTrees = function(req, res) {
+	usersData.getUserTrees(req.query).then((value) => {
+		res.status(200).send(value);
+	})
+}
+
 var deleteUserRoute = function(req, res) {
 	usersData.deleteUserRoute(req.query).then((value) => {
 		res.status(200).send(value);
@@ -53,3 +59,4 @@ module.exports.loginUser = loginUser;
 module.exports.addUserRoute = addUserRoute;
 module.exports.getUserRoutes = getUserRoutes;
 module.exports.deleteUserRoute = deleteUserRoute;
+module.exports.getUserTrees = getUserTrees;
