@@ -4,7 +4,7 @@ var usersData = require('../models/usersModel');
 
 var createUser = function(req, res) {
 	if (!req.body) {
-		return status(400).send("Bad request.");
+		res.status(400).send("Bad request.");
 	}
 	usersData.createUser(req.body).then(function(value) {
 	  res.status(200).send(value);
@@ -12,6 +12,12 @@ var createUser = function(req, res) {
 }
 
 var deleteUser = function(req, res) {
+	if (!req.body) {
+		res.status(400).send("Bad request.");
+	}
+	if (!req.body.token) {
+		res.status(400).send("User token needed");
+	}
   usersData.deleteUser(req.body).then(function(value) {
     res.status(200).send(value);
   });
@@ -48,7 +54,17 @@ var getUserTrees = function(req, res) {
 }
 
 var deleteUserRoute = function(req, res) {
-	usersData.deleteUserRoute(req.query).then((value) => {
+	console.log(req.body);
+	if (!req.body) {
+		res.status(400).send("Bad request.");
+	}
+	if (!req.body.token) {
+		res.status(400).send("User token needed");
+	}
+	if (!req.body.routeKey) {
+		res.status(400).send("Route to delete not present.");
+	}
+	usersData.deleteUserRoute(req.body).then((value) => {
 		res.status(200).send(value);
 	})
 }

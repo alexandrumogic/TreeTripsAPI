@@ -95,6 +95,7 @@ var pushTreeIdToUserAddedTrees = function(treeId, uid) {
 }
 
 var deleteUserRoute = function(data) {
+  console.log(data);
   return new Promise((resolve, reject) => {
     verifyIdToken(data.token).then((uid) => {
       usersRef.child(uid).child("routes").child(data.routeKey).remove().then(resolve("OK"));
