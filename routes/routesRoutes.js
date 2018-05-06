@@ -10,6 +10,7 @@ router.use(bodyParser.json());
 
 router.get('/', routesControler.findRoute);
 router.post('/public', routesControler.publicRoute);
+router.post('/public/join', routesControler.joinPublicRoute);
 router.get('/public', routesControler.getPublicRoutes);
 
 module.exports = router;

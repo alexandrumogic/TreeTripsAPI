@@ -20,6 +20,15 @@ var getPublicRoutes = function() {
 	});
 }
 
+var joinPublicRoute = function(data) {
+  return new Promise((resolve, reject) => {
+    publicRoutesRef.child(data.routeKey).child("participants").push(data.userName).then(resolve("Te-ai alaturat cu success!"));
+  }).catch((err) => {
+    console.log("Utilizatorul nu se poate alatura.");
+    reject("Nu te-ai putut alatura traseului, ne pare rau.");
+  });
+}
+
 var findRoute = function(data) {
     console.log(data);
 
@@ -53,3 +62,4 @@ var findRouteToFirstTreeByCategory = function() {
 module.exports.findRoute = findRoute;
 module.exports.publicRoute = publicRoute;
 module.exports.getPublicRoutes = getPublicRoutes;
+module.exports.joinPublicRoute = joinPublicRoute;
