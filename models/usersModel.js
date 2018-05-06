@@ -3,6 +3,7 @@
 var db = require('../shared/database');
 var admin = require('../shared/database').admin;
 var usersRef = db.ref('users');
+var treesRef = db.ref('trees');
 var clientService = require('../shared/database').clientService;
 
 var createUser = function(data) {
@@ -82,9 +83,14 @@ var getUserTrees = function(data) {
         resolve(trees.val());
       })
     })
+  }).then((treesKeys) => {
+    var keysArr = Object.keys(treesKeys).map(function(key) {
+            return treesKeys[key];
+      });
+
+    return Promise.all(keysArr.map(key => treesRef.child(key).once('value')));
   });
 }
-
 
 var pushTreeIdToUserAddedTrees = function(treeId, uid) {
   return new Promise((resolve, reject) => {
