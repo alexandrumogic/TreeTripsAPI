@@ -23,18 +23,6 @@ var deleteUser = function(req, res) {
   });
 }
 
-var loginUser = function(req, res) {
-  usersData.loginUser(req.body).then(function(value) {
-		if (value == "Error")
-		{
-			res.status(400).send("User sau parola incorecte. Incercati din nou.");
-		} else
-		{
-			res.status(200).send(value);
-		}
-  })
-}
-
 var addUserRoute = function(req, res) {
   usersData.addUserRoute(req.body).then((value) => {
   	res.status(200).send(value);
@@ -71,7 +59,6 @@ var deleteUserRoute = function(req, res) {
 
 module.exports.createUser = createUser;
 module.exports.deleteUser = deleteUser;
-module.exports.loginUser = loginUser;
 module.exports.addUserRoute = addUserRoute;
 module.exports.getUserRoutes = getUserRoutes;
 module.exports.deleteUserRoute = deleteUserRoute;

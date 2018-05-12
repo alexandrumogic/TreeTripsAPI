@@ -51,21 +51,6 @@ var verifyIdToken = function(idToken) {
   });
 }
 
-var loginUser = function(data) {
-  return new Promise((resolve, reject) => {
-    clientService.auth().signInWithEmailAndPassword(data.email,data.password).then((user) => {
-      user.getIdToken(true).then((token)=>{
-              resolve({name: user.displayName, token: token});
-          }).catch((err)=>{
-              reject("Error");
-          });
-      }).catch((err)=>{
-          reject("Error");
-      });
-  });
-}
-
-
 var getUserRoutes = function(data) {
   return new Promise((resolve, reject) => {
     verifyIdToken(data.token).then((uid) => {
@@ -123,7 +108,6 @@ var addUserRoute = function(data) {
 
 module.exports.createUser = createUser;
 module.exports.deleteUser = deleteUser;
-module.exports.loginUser = loginUser;
 module.exports.addUserRoute = addUserRoute;
 module.exports.getUserRoutes = getUserRoutes;
 module.exports.deleteUserRoute = deleteUserRoute;
