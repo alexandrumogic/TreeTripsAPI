@@ -30,8 +30,6 @@ var joinPublicRoute = function(data) {
 }
 
 var findRoute = function(data) {
-    console.log(data);
-
     return googleMaps.directions({
       origin: {lat: data.sPtLat, lng: data.sPtLng},
       destination: {lat: data.ePtLat, lng: data.ePtLng},
